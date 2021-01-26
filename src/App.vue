@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Modal v-if="modal" />
     <h1>pomodoro</h1>
     <div class="navbar">
       <span class="navbar_item" :class="{ navbar_item__selected : pomodoro }" @click="isClicked(1)">pomodoro</span>
@@ -18,8 +19,7 @@
         </div>
       </vue-ellipse-progress>
     </div>
-    <img src="@/assets/gear.svg" alt="parametres">
-    <Modal v-if="modal" />
+    <img class="settings" src="@/assets/gear.svg" alt="parametres" @click="modal = !modal">
   </div>
 </template>
 
@@ -127,7 +127,7 @@ export default {
       letter-spacing: 15px;
     }
   }
-  img {
+  .settings {
     position: absolute;
     width: 30px;
     bottom: 50px;

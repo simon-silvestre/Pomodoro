@@ -225,11 +225,14 @@ export default {
       letter-spacing: 0;
       background-color: #eef1fa;
 
+      &:nth-child(1) {
+        font-family: 'Poppins', sans-serif!important;
+      }
       &:nth-child(2) {
-        font-family: 'Londrina Solid', cursive;
+        font-family: 'Open Sans', sans-serif!important;
       }
       &:nth-child(3) {
-        font-family: 'Roboto Slab', serif;
+        font-family: 'Roboto Slab', serif!important;
       }
     }
     .selectedFont {

@@ -44,7 +44,12 @@
           </div>
         </div>
         <div class="color">
-
+          <p>Color</p>
+          <div class="colorChoice">
+            <span @click="colorChoice(1)"><img v-show="$parent.saumon" src="@/assets/check.svg" alt="check"></span>
+            <span @click="colorChoice(2)"><img v-show="$parent.bleu" src="@/assets/check.svg" alt="check"></span>
+            <span @click="colorChoice(3)"><img v-show="$parent.violet" src="@/assets/check.svg" alt="check"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -96,6 +101,20 @@ export default {
       else if(item == 3) {
         this.$parent.roboto = true
       }
+    },
+    colorChoice(item) {
+      this.$parent.saumon = false
+      this.$parent.bleu = false
+      this.$parent.violet = false
+      if(item == 1) {
+        this.$parent.saumon = true
+      }
+      else if(item == 2) {
+        this.$parent.bleu = true
+      }
+      else if(item == 3) {
+        this.$parent.violet = true
+      }
     }
   }
 }
@@ -119,7 +138,7 @@ export default {
     border-radius: 25px;
     margin: 11% auto;
     
-    .head, .inputContainer, .font, .color, .fontChoice {
+    .head, .inputContainer, .font, .color, .fontChoice, .colorChoice {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -148,7 +167,6 @@ export default {
       }
     .time {
       padding: 20px 0;
-      border-bottom: 1px solid lightgray;
       .inputContainer {
         padding: 20px 0 0 0;
 
@@ -200,33 +218,56 @@ export default {
       }
     }
   }
-  .font {
-    .fontChoice {
-      padding: 20px 0;
-      & p {
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        text-transform: capitalize;
-        letter-spacing: 0;
-        margin: 0 10px;
-        background-color: #eef1fa;
-        border-radius: 50%;
+  .fontChoice {
+    padding: 20px 0;
+    p {
+      text-transform: capitalize;
+      letter-spacing: 0;
+      background-color: #eef1fa;
 
-        &:nth-child(2) {
-          font-family: 'Londrina Solid', cursive;
-        }
-        &:nth-child(3) {
-          font-family: 'Roboto Slab', serif;
-        }
+      &:nth-child(2) {
+        font-family: 'Londrina Solid', cursive;
       }
-      .selectedFont {
-        background-color: black;
-        color: #fff;
+      &:nth-child(3) {
+        font-family: 'Roboto Slab', serif;
       }
     }
+    .selectedFont {
+      background-color: black;
+      color: #fff;
+    }
+  }
+  .fontChoice p, .colorChoice span {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 10px;
+  } 
+
+  .colorChoice {
+    padding: 20px 0;
+
+    span {
+      &:nth-child(1) {
+        background-color: #f86f6b;
+      }
+      &:nth-child(2) {
+        background-color: #70f3f7;
+      }
+      &:nth-child(3) {
+        background-color: #da81f4;
+      }
+
+      img {
+        width: 15px;
+      }
+    }
+  }
+  .time, .font {
+    border-bottom: 1px solid lightgray;
   }
 </style>

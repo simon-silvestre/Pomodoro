@@ -42,7 +42,10 @@ export default {
       modal: false,
       poppins: true,
       oswald: false,
-      roboto: false
+      roboto: false,
+      saumon: true,
+      bleu: false,
+      violet: false
     }
   },
   methods: {

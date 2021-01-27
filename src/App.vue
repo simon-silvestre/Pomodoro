@@ -1,14 +1,14 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ oswald : oswald, roboto : roboto }">
     <Modal v-if="modal" />
     <h1>pomodoro</h1>
     <div class="navbar">
-      <span class="navbar_item" :class="{ navbar_item__selected : pomodoro }" @click="navbarChoice(1)">pomodoro</span>
-      <span class="navbar_item" :class="{ navbar_item__selected : shortBreak }" @click="navbarChoice(2)">short break</span>
-      <span class="navbar_item" :class="{ navbar_item__selected : longBreak }" @click="navbarChoice(3)">long break</span>
+      <span class="navbar_item" :class="{ navbar_item__selected : pomodoro, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(1)">pomodoro</span>
+      <span class="navbar_item" :class="{ navbar_item__selected : shortBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(2)">short break</span>
+      <span class="navbar_item" :class="{ navbar_item__selected : longBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(3)">long break</span>
     </div>
     <div class="compteur">
-      <vue-ellipse-progress :progress="progress" color="#f86f6b" emptyColor="transparent" :thickness="10" :size="350">
+      <vue-ellipse-progress :progress="progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
         <div class="compteur_informations">
           <div class="compteur_temps">
             <p>{{ minutes }}:{{ secondes }}</p>
@@ -45,7 +45,7 @@ export default {
       roboto: false,
       saumon: true,
       bleu: false,
-      violet: false
+      violet: false,
     }
   },
   methods: {
@@ -62,6 +62,17 @@ export default {
       else if(item == 3) {
         this.longBreak = true
       }
+    },
+    choixCouleur() {
+      if(this.saumon == true) {
+        return "#f86f6b"
+      }
+      if(this.bleu == true) {
+        return "#70f3f7"
+      }
+      if(this.violet == true) {
+        return "#da81f4"
+      }
     }
   }
 }
@@ -69,7 +80,7 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Londrina+Solid&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
   * {
     padding: 0;
@@ -84,6 +95,12 @@ export default {
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  .oswald {
+    font-family: 'Londrina Solid', cursive;
+  }
+  .roboto {
+    font-family: 'Roboto Slab', serif;
   }
   h1 {
     width: fit-content;
@@ -110,9 +127,17 @@ export default {
     }
     .navbar_item__selected {
       color: #4d212e;
-      background-color: #f86f6b;
       border-radius: 50px;
       transition: ease 0.5s;
+    }
+    .navbar_item__selected.saumon {
+    background-color: #f86f6b;
+    }
+    .navbar_item__selected.bleu {
+      background-color: #70f3f7;
+    }
+    .navbar_item__selected.violet {
+      background-color: #da81f4;
     }
   }
   .compteur {
@@ -123,6 +148,12 @@ export default {
     border-radius: 50%;
     border: 20px solid #282b4f;
     box-shadow: 0px 0px 75px 0px #0f111d;
+    cursor: pointer;
+    transition: ease 0.2s;
+
+    &:active {
+      transform: scale(1.03);
+    }
 
     .compteur_temps {
       font-size: 90px;

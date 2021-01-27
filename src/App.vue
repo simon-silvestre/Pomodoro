@@ -10,8 +10,14 @@
     <div class="compteur">
       <vue-ellipse-progress :progress="progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
         <div class="compteur_informations">
-          <div class="compteur_temps">
-            <p>{{ minutes }}:{{ secondes }}</p>
+          <div class="compteur_temps" v-show="pomodoro">
+            <p>{{ pomodoroValue }}:{{ secondes }}</p>
+          </div>
+          <div class="compteur_temps" v-show="shortBreak">
+            <p>{{ shortbreakValue }}:{{ secondes }}</p>
+          </div>
+          <div class="compteur_temps" v-show="longBreak">
+            <p>{{ longbreakValue }}:{{ secondes }}</p>
           </div>
           <div class="compteur_etat">
             <p>pause</p>
@@ -36,8 +42,11 @@ export default {
       pomodoro: true,
       shortBreak: false,
       longBreak: false,
-      minutes: 17,
-      secondes: 59,
+      pomodoroValue: 0,
+      shortbreakValue: 0,
+      longbreakValue: 0,
+      minutes: '00',
+      secondes: '00',
       progress: 85,
       modal: false,
       poppins: true,
@@ -46,6 +55,7 @@ export default {
       saumon: true,
       bleu: false,
       violet: false,
+
     }
   },
   methods: {
@@ -73,6 +83,17 @@ export default {
       if(this.violet == true) {
         return "#da81f4"
       }
+    },
+    tempsRestant() {
+      /*if(this.pomodoro == true) {
+        
+      }
+      else if(this.shortBreak == true) {
+        
+      }
+      else if(this.longBreak == true) {
+        
+      }*/
     }
   }
 }
@@ -168,10 +189,12 @@ export default {
     }
   }
   .settings {
-    position: absolute;
+    position: relative;
     width: 30px;
+    top: 20px;
     bottom: 50px;
     left: calc(50% - 15px);
     cursor: pointer;
+    padding-bottom: 50px;
   }
 </style>

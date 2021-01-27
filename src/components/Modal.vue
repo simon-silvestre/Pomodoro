@@ -11,7 +11,7 @@
           <div class="inputContainer">
             <div class="input">
               <label for="pomodoro">pomodoro</label>
-              <input name="pomodoro" :value="pomodoroValue" type="number">
+              <input name="pomodoro" :value="$parent.pomodoroValue" type="number">
               <div class="selecteur">
                 <img src="@/assets/up.svg" @click="pomodoro(1)" alt="ajouter">
                 <img src="@/assets/down.svg" @click="pomodoro(-1)" alt="enlenver">
@@ -19,7 +19,7 @@
             </div>
             <div class="input">
               <label for="shortbreak">short break</label>
-              <input name="shortbreak" :value="shortbreakValue" type="number">
+              <input name="shortbreak" :value="$parent.shortbreakValue" type="number">
               <div class="selecteur">
                 <img src="@/assets/up.svg" @click="shortBreak(1)" alt="ajouter">
                 <img src="@/assets/down.svg" @click="shortBreak(-1)" alt="enlenver">
@@ -27,7 +27,7 @@
             </div>
             <div class="input">
               <label for="longbreak">long break</label>
-              <input name="longbreak" :value="longbreakValue" type="number">
+              <input name="longbreak" :value="$parent.longbreakValue" type="number">
               <div class="selecteur">
                 <img src="@/assets/up.svg" @click="longBreak(1)" alt="ajouter">
                 <img src="@/assets/down.svg" @click="longBreak(-1)" alt="enlenver">
@@ -51,6 +51,7 @@
             <span @click="colorChoice(3)"><img v-show="$parent.violet" src="@/assets/check.svg" alt="check"></span>
           </div>
         </div>
+        <button @click.prevent="confirmModal()">Apply</button>
       </div>
     </div>
   </div>
@@ -59,34 +60,39 @@
 <script>
 export default {
   name: 'Modal',
-  data() {
-    return {
-      pomodoroValue: 0,
-      shortbreakValue: 0,
-      longbreakValue: 0
-    }
-  },
   methods: {
     closeModal() {
       this.$parent.modal = false;
+      this.$parent.poppins = true
+      this.$parent.oswald = false
+      this.$parent.roboto = false
+      this.$parent.saumon = true
+      this.$parent.bleu = false
+      this.$parent.violet = false
+      this.$parent.pomodoroValue = 0
+      this.$parent.shortbreakValue = 0
+      this.$parent.longbreakValue = 0
+    },
+    confirmModal() {
+      this.$parent.modal = false;
     },
     pomodoro(valeur) {
-      if(valeur == -1 && this.pomodoroValue == 0 ){
+      if(valeur == -1 && this.$parent.pomodoroValue == 0 ){
         return
       }
-      this.pomodoroValue += valeur
+      this.$parent.pomodoroValue += valeur
     },
     shortBreak(valeur) {
-      if(valeur == -1 && this.shortbreakValue == 0 ){
+      if(valeur == -1 && this.$parent.shortbreakValue == 0 ){
         return
       }
-      this.shortbreakValue += valeur
+      this.$parent.shortbreakValue += valeur
     },
     longBreak(valeur) {
-      if(valeur == -1 && this.longbreakValue == 0 ){
+      if(valeur == -1 && this.$parent.longbreakValue == 0 ){
         return
       }
-      this.longbreakValue += valeur
+      this.$parent.longbreakValue += valeur
     },
     fontChoice(item) {
       this.$parent.poppins = false
@@ -121,6 +127,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .head, .inputContainer, .font, .color, .fontChoice, .colorChoice, .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .container {
     position: fixed;
     left: 0px;
@@ -130,19 +141,14 @@ export default {
     height: 100%;
     z-index: 100;
     color: #000;
+    justify-content: center;
   }
   .modal {
-    width: 540px;
+    max-width: 540px;
     height: 460px;
     background-color: #fff;
     border-radius: 25px;
-    margin: 11% auto;
-    
-    .head, .inputContainer, .font, .color, .fontChoice, .colorChoice {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+
     .head {
       padding: 40px 40px 25px 40px;
       font-weight: 900;
@@ -201,8 +207,8 @@ export default {
             position: absolute;
             width: 10px;
             height: 10px;
-            top: 37px;
-            right: 40px;
+            top: 53%;
+            left: 100px;
 
             img {
               cursor: pointer;
@@ -215,6 +221,26 @@ export default {
             }
           }
         }
+      }
+    }
+    button {
+      position: relative;
+      width: 140px;
+      height: 50px;
+      border-radius: 50px;
+      background-color: #f86f6b;
+      color: #fff;
+      border: none;
+      margin: 0 auto;
+      cursor: pointer;
+      transition: ease 0.3s;
+      font-weight: 900;
+      font-size: 14px;
+      left: calc(50% - 70px);
+
+      &:active {
+        transform: scale(1.03);
+        outline: none;
       }
     }
   }

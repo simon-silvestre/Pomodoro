@@ -11,26 +11,26 @@
           <div class="inputContainer">
             <div class="input">
               <label for="pomodoro">pomodoro</label>
-              <input name="pomodoro" type="number">
+              <input name="pomodoro" :value="pomodoroValue" type="number">
               <div class="selecteur">
-                <img src="@/assets/up.svg" alt="ajouter">
-                <img src="@/assets/down.svg" alt="enlenver">
+                <img src="@/assets/up.svg" @click="pomodoro(1)" alt="ajouter">
+                <img src="@/assets/down.svg" @click="pomodoro(-1)" alt="enlenver">
               </div>
             </div>
             <div class="input">
               <label for="shortbreak">short break</label>
-              <input name="shortbreak" type="number">
+              <input name="shortbreak" :value="shortbreakValue" type="number">
               <div class="selecteur">
-                <img src="@/assets/up.svg" alt="ajouter">
-                <img src="@/assets/down.svg" alt="enlenver">
+                <img src="@/assets/up.svg" @click="shortBreak(1)" alt="ajouter">
+                <img src="@/assets/down.svg" @click="shortBreak(-1)" alt="enlenver">
               </div>
             </div>
             <div class="input">
               <label for="longbreak">long break</label>
-              <input name="longbreak" type="number">
+              <input name="longbreak" :value="longbreakValue" type="number">
               <div class="selecteur">
-                <img src="@/assets/up.svg" alt="ajouter">
-                <img src="@/assets/down.svg" alt="enlenver">
+                <img src="@/assets/up.svg" @click="longBreak(1)" alt="ajouter">
+                <img src="@/assets/down.svg" @click="longBreak(-1)" alt="enlenver">
               </div>
             </div>
           </div>
@@ -49,10 +49,35 @@
 <script>
 export default {
   name: 'Modal',
+  data() {
+    return {
+      pomodoroValue: 0,
+      shortbreakValue: 0,
+      longbreakValue: 0
+    }
+  },
   methods: {
     closeModal() {
       this.$parent.modal = false;
-    }
+    },
+    pomodoro(valeur) {
+      if(valeur == -1 && this.pomodoroValue == 0 ){
+        return
+      }
+      this.pomodoroValue += valeur
+    },
+    shortBreak(valeur) {
+      if(valeur == -1 && this.shortbreakValue == 0 ){
+        return
+      }
+      this.shortbreakValue += valeur
+    },
+    longBreak(valeur) {
+      if(valeur == -1 && this.longbreakValue == 0 ){
+        return
+      }
+      this.longbreakValue += valeur
+    },
   }
 }
 </script>
@@ -127,7 +152,6 @@ export default {
             padding: 15px;
             font-weight: 900;
             outline-color: #1f2140;
-            cursor: pointer;
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
             appearance: textfield;
@@ -145,7 +169,13 @@ export default {
             right: 40px;
 
             img {
+              cursor: pointer;
               width: 12px;
+              transition: ease 0.3s;
+
+              &:hover {
+                width: 15px;
+              }
             }
           }
         }

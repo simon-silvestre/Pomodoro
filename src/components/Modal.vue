@@ -36,7 +36,12 @@
           </div>
         </div>
         <div class="font">
-
+          <p>Font</p>
+          <div class="fontChoice">
+            <p :class="{ selectedFont : $parent.poppins }" @click="fontChoice(1)">Aa</p>
+            <p :class="{ selectedFont : $parent.oswald }" @click="fontChoice(2)">Aa</p>
+            <p :class="{ selectedFont : $parent.roboto }" @click="fontChoice(3)">Aa</p>
+          </div>
         </div>
         <div class="color">
 
@@ -78,11 +83,24 @@ export default {
       }
       this.longbreakValue += valeur
     },
+    fontChoice(item) {
+      this.$parent.poppins = false
+      this.$parent.oswald = false
+      this.$parent.roboto = false
+      if(item == 1) {
+        this.$parent.poppins = true
+      }
+      else if(item == 2) {
+        this.$parent.oswald = true
+      }
+      else if(item == 3) {
+        this.$parent.roboto = true
+      }
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .container {
     position: fixed;
@@ -100,8 +118,8 @@ export default {
     background-color: #fff;
     border-radius: 25px;
     margin: 11% auto;
-
-    .head, .inputContainer, .font, .color {
+    
+    .head, .inputContainer, .font, .color, .fontChoice {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -122,15 +140,15 @@ export default {
   .center {
     padding: 0 40px;
 
+    p {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: 900;
+        letter-spacing: 5px;
+      }
     .time {
       padding: 20px 0;
       border-bottom: 1px solid lightgray;
-      p {
-        font-size: 14px;
-        text-transform: uppercase;
-        font-weight: bold;
-        letter-spacing: 5px;
-      }
       .inputContainer {
         padding: 20px 0 0 0;
 
@@ -179,6 +197,35 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+  .font {
+    .fontChoice {
+      padding: 20px 0;
+      & p {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        text-transform: capitalize;
+        letter-spacing: 0;
+        margin: 0 10px;
+        background-color: #eef1fa;
+        border-radius: 50%;
+
+        &:nth-child(2) {
+          font-family: 'Londrina Solid', cursive;
+        }
+        &:nth-child(3) {
+          font-family: 'Roboto Slab', serif;
+        }
+      }
+      .selectedFont {
+        background-color: black;
+        color: #fff;
       }
     }
   }

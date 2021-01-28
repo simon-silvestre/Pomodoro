@@ -7,20 +7,17 @@
       <span class="navbar_item" :class="{ navbar_item__selected : shortBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(2)">short break</span>
       <span class="navbar_item" :class="{ navbar_item__selected : longBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(3)">long break</span>
     </div>
-    <div class="compteur">
+    <div class="compteur" @click="timer()">
       <vue-ellipse-progress :progress="progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
         <div class="compteur_informations">
-          <div class="compteur_temps" v-show="pomodoro">
-            <p>{{ pomodoroValue }}:{{ secondes }}</p>
-          </div>
-          <div class="compteur_temps" v-show="shortBreak">
-            <p>{{ shortbreakValue }}:{{ secondes }}</p>
-          </div>
-          <div class="compteur_temps" v-show="longBreak">
-            <p>{{ longbreakValue }}:{{ secondes }}</p>
+          <div class="compteur_temps">
+            <p v-show="pomodoro">{{ pomodoroValue }}:{{ pomodoroSecondes }}</p>
+            <p v-show="shortBreak">{{ shortbreakValue }}:{{ shortbreakSecondes }}</p>
+            <p v-show="longBreak">{{ longbreakValue }}:{{ longbreakSecondes }}</p>
           </div>
           <div class="compteur_etat">
-            <p>pause</p>
+            <p v-if="pause">pause</p>
+            <p v-else>play</p>
           </div>
         </div>
       </vue-ellipse-progress>
@@ -45,8 +42,9 @@ export default {
       pomodoroValue: 0,
       shortbreakValue: 0,
       longbreakValue: 0,
-      minutes: '00',
-      secondes: '00',
+      pomodoroSecondes: 0,
+      shortbreakSecondes: 0,
+      longbreakSecondes: 0,
       progress: 85,
       modal: false,
       poppins: true,
@@ -55,7 +53,10 @@ export default {
       saumon: true,
       bleu: false,
       violet: false,
-
+      pause: true,
+      pomodoroInterval: null,
+      shortbreakInterval: null,
+      longbreakInterval: null,
     }
   },
   methods: {
@@ -63,6 +64,10 @@ export default {
       this.pomodoro = false
       this.shortBreak = false
       this.longBreak = false
+      clearInterval(this.pomodoroInterval)
+      clearInterval(this.shortbreakInterval)
+      clearInterval(this.longbreakInterval)
+      this.pause = true
       if(item == 1) {
         this.pomodoro = true
       }
@@ -84,16 +89,69 @@ export default {
         return "#da81f4"
       }
     },
-    tempsRestant() {
-      /*if(this.pomodoro == true) {
-        
+    timer() {
+      if(this.pause == false) {
+        clearInterval(this.pomodoroInterval)
+        clearInterval(this.shortbreakInterval)
+        clearInterval(this.longbreakInterval)
+        this.pause = true
       }
-      else if(this.shortBreak == true) {
-        
+      else if(this.pause == true) {
+        if(this.pomodoro == true && this.pomodoroValue > 0 || this.pomodoroSecondes > 0) {
+        this.pause = !this.pause
+        this.pomodoroInterval = setInterval(() => { 
+          if(this.pomodoroValue > 0 || this.pomodoroSecondes > 0) {
+            if(this.pomodoroSecondes <= 0) {
+              this.pomodoroValue--
+              this.pomodoroSecondes = 59
+            }
+            else {
+                this.pomodoroSecondes--
+            }
+          }
+          else {
+            clearInterval(this.pomodoroInterval)
+            this.pause = true
+          }
+         }, 1000)
       }
-      else if(this.longBreak == true) {
-        
-      }*/
+      else if(this.shortBreak == true && this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
+        this.pause = !this.pause
+        this.shortbreakInterval = setInterval(() => { 
+          if(this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
+            if(this.shortbreakSecondes <= 0) {
+              this.shortbreakValue--
+              this.shortbreakSecondes = 59
+            }
+            else {
+                this.shortbreakSecondes--
+            }
+          }
+          else {
+            clearInterval(this.shortbreakInterval)
+            this.pause = true
+          }
+         }, 1000)
+      }
+      else if(this.longBreak == true && this.longbreakValue > 0 || this.longbreakSecondes > 0) {
+        this.pause = !this.pause
+        this.longbreakInterval = setInterval(() => { 
+          if(this.longbreakValue > 0 || this.longbreakSecondes > 0) {
+            if(this.longbreakSecondes <= 0) {
+              this.longbreakValue--
+              this.longbreakSecondes = 59
+            }
+            else {
+                this.longbreakSecondes--
+            }
+          }
+          else {
+            clearInterval(this.longbreakInterval)
+            this.pause = true
+          }
+         }, 1000)
+      }
+      }
     }
   }
 }

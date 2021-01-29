@@ -97,8 +97,10 @@ export default {
         this.pause = true
       }
       else if(this.pause == true) {
-        if(this.pomodoro == true && this.pomodoroValue > 0 || this.pomodoroSecondes > 0) {
+        if(this.pomodoro == true && this.pomodoroValue > 0 || this.pomodoro == true && this.pomodoroSecondes > 0) {
         this.pause = !this.pause
+        console.log(this.pomodoro);
+        
         this.pomodoroInterval = setInterval(() => { 
           if(this.pomodoroValue > 0 || this.pomodoroSecondes > 0) {
             if(this.pomodoroSecondes <= 0) {
@@ -114,43 +116,43 @@ export default {
             this.pause = true
           }
          }, 1000)
-      }
-      else if(this.shortBreak == true && this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
-        this.pause = !this.pause
-        this.shortbreakInterval = setInterval(() => { 
-          if(this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
-            if(this.shortbreakSecondes <= 0) {
-              this.shortbreakValue--
-              this.shortbreakSecondes = 59
+        }
+        else if(this.shortBreak == true && this.shortbreakValue > 0 || this.shortBreak == true && this.shortbreakSecondes > 0) {
+          this.pause = !this.pause
+          this.shortbreakInterval = setInterval(() => { 
+            if(this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
+              if(this.shortbreakSecondes <= 0) {
+                this.shortbreakValue--
+                this.shortbreakSecondes = 59
+              }
+              else {
+                  this.shortbreakSecondes--
+              }
             }
             else {
-                this.shortbreakSecondes--
+              clearInterval(this.shortbreakInterval)
+              this.pause = true
             }
-          }
-          else {
-            clearInterval(this.shortbreakInterval)
-            this.pause = true
-          }
-         }, 1000)
-      }
-      else if(this.longBreak == true && this.longbreakValue > 0 || this.longbreakSecondes > 0) {
-        this.pause = !this.pause
-        this.longbreakInterval = setInterval(() => { 
-          if(this.longbreakValue > 0 || this.longbreakSecondes > 0) {
-            if(this.longbreakSecondes <= 0) {
-              this.longbreakValue--
-              this.longbreakSecondes = 59
+          }, 1000)
+        }
+        else if(this.longBreak == true && this.longbreakValue > 0 || this.longBreak == true && this.longbreakSecondes > 0) {
+          this.pause = !this.pause
+          this.longbreakInterval = setInterval(() => { 
+            if(this.longbreakValue > 0 || this.longbreakSecondes > 0) {
+              if(this.longbreakSecondes <= 0) {
+                this.longbreakValue--
+                this.longbreakSecondes = 59
+              }
+              else {
+                  this.longbreakSecondes--
+              }
             }
             else {
-                this.longbreakSecondes--
+              clearInterval(this.longbreakInterval)
+              this.pause = true
             }
-          }
-          else {
-            clearInterval(this.longbreakInterval)
-            this.pause = true
-          }
-         }, 1000)
-      }
+          }, 1000)
+        }
       }
     }
   }

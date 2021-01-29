@@ -81,18 +81,21 @@ export default {
         return
       }
       this.$parent.pomodoroValue += valeur
+      this.$parent.pomodoroTotal += valeur * 60
     },
     shortBreak(valeur) {
       if(valeur == -1 && this.$parent.shortbreakValue == 0 ){
         return
       }
       this.$parent.shortbreakValue += valeur
+      this.$parent.shortbreakTotal += valeur * 60
     },
     longBreak(valeur) {
       if(valeur == -1 && this.$parent.longbreakValue == 0 ){
         return
       }
       this.$parent.longbreakValue += valeur
+      this.$parent.longbreakTotal += valeur * 60
     },
     fontChoice(item) {
       this.$parent.poppins = false

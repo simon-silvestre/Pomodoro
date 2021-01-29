@@ -8,12 +8,12 @@
       <span class="navbar_item" :class="{ navbar_item__selected : longBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(3)">long break</span>
     </div>
     <div class="compteur" @click="timer()">
-      <vue-ellipse-progress :progress="progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
+      <vue-ellipse-progress :progress="pause ? 100: progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
         <div class="compteur_informations">
           <div class="compteur_temps">
-            <p v-show="pomodoro">{{ pomodoroValue }}:{{ pomodoroSecondes }}</p>
-            <p v-show="shortBreak">{{ shortbreakValue }}:{{ shortbreakSecondes }}</p>
-            <p v-show="longBreak">{{ longbreakValue }}:{{ longbreakSecondes }}</p>
+            <p v-show="pomodoro">{{ pomodoroValue == pomodoroTotal / 60 ? pomodoroValue : minutes }}:{{ pomodoroValue == pomodoroTotal / 60 ?  0 :secondes }}</p>
+            <p v-show="shortBreak">{{ shortbreakValue == shortbreakTotal / 60 ? shortbreakValue : minutes }}:{{ shortbreakValue == shortbreakTotal / 60 ? 0 :secondes }}</p>
+            <p v-show="longBreak">{{ longbreakValue == longbreakTotal / 60 ? longbreakValue : minutes }}:{{ longbreakValue == longbreakTotal / 60 ? 0 :secondes }}</p>
           </div>
           <div class="compteur_etat">
             <p v-if="pause">pause</p>
@@ -42,10 +42,10 @@ export default {
       pomodoroValue: 0,
       shortbreakValue: 0,
       longbreakValue: 0,
-      pomodoroSecondes: 0,
-      shortbreakSecondes: 0,
-      longbreakSecondes: 0,
-      progress: 85,
+      pomodoroTotal: 0,
+      shortbreakTotal: 0,
+      longbreakTotal: 0,
+      progress: 100,
       modal: false,
       poppins: true,
       oswald: false,
@@ -57,6 +57,8 @@ export default {
       pomodoroInterval: null,
       shortbreakInterval: null,
       longbreakInterval: null,
+      minutes: 0,
+      secondes: 0
     }
   },
   methods: {
@@ -64,6 +66,9 @@ export default {
       this.pomodoro = false
       this.shortBreak = false
       this.longBreak = false
+      this.pomodoroTotal = this.pomodoroValue * 60
+      this.shortbreakTotal = this.shortbreakValue * 60
+      this.longbreakTotal = this.longbreakValue * 60
       clearInterval(this.pomodoroInterval)
       clearInterval(this.shortbreakInterval)
       clearInterval(this.longbreakInterval)
@@ -97,59 +102,60 @@ export default {
         this.pause = true
       }
       else if(this.pause == true) {
-        if(this.pomodoro == true && this.pomodoroValue > 0 || this.pomodoro == true && this.pomodoroSecondes > 0) {
+        if(this.pomodoro == true && this.pomodoroValue * 60 > 0) {
         this.pause = !this.pause
-        console.log(this.pomodoro);
-        
         this.pomodoroInterval = setInterval(() => { 
-          if(this.pomodoroValue > 0 || this.pomodoroSecondes > 0) {
-            if(this.pomodoroSecondes <= 0) {
-              this.pomodoroValue--
-              this.pomodoroSecondes = 59
-            }
-            else {
-                this.pomodoroSecondes--
-            }
+          if(this.pomodoroTotal > 0) {
+            this.minutes = Math.floor(this.pomodoroTotal / 60)
+            this.secondes = Math.floor(this.pomodoroTotal % 60)
+            this.pomodoroTotal--
+            this.progress = this.pomodoroTotal * 100 / (this.pomodoroValue * 60)
           }
           else {
             clearInterval(this.pomodoroInterval)
             this.pause = true
+            this.minutes = this.pomodoroValue
+            this.secondes = 0
+            this.pomodoroTotal = this.pomodoroValue * 60
+            this.progress = 100
           }
          }, 1000)
         }
-        else if(this.shortBreak == true && this.shortbreakValue > 0 || this.shortBreak == true && this.shortbreakSecondes > 0) {
+        else if(this.shortBreak == true && this.shortbreakValue * 60 > 0 ) {
           this.pause = !this.pause
           this.shortbreakInterval = setInterval(() => { 
-            if(this.shortbreakValue > 0 || this.shortbreakSecondes > 0) {
-              if(this.shortbreakSecondes <= 0) {
-                this.shortbreakValue--
-                this.shortbreakSecondes = 59
-              }
-              else {
-                  this.shortbreakSecondes--
-              }
-            }
+            if(this.shortbreakTotal > 0) {
+              this.minutes = Math.floor(this.shortbreakTotal / 60)
+              this.secondes = Math.floor(this.shortbreakTotal % 60)
+              this.shortbreakTotal--
+              this.progress = this.shortbreakTotal * 100 / (this.shortbreakValue * 60)
+          }
             else {
               clearInterval(this.shortbreakInterval)
               this.pause = true
+              this.minutes = this.shortbreakValue
+              this.secondes = 0
+              this.shortbreakTotal = this.shortbreakValue * 60
+              this.progress = 100
             }
           }, 1000)
         }
-        else if(this.longBreak == true && this.longbreakValue > 0 || this.longBreak == true && this.longbreakSecondes > 0) {
+        else if(this.longBreak == true && this.longbreakValue * 60 > 0) {
           this.pause = !this.pause
           this.longbreakInterval = setInterval(() => { 
-            if(this.longbreakValue > 0 || this.longbreakSecondes > 0) {
-              if(this.longbreakSecondes <= 0) {
-                this.longbreakValue--
-                this.longbreakSecondes = 59
-              }
-              else {
-                  this.longbreakSecondes--
-              }
-            }
+            if(this.longbreakTotal > 0) {
+              this.minutes = Math.floor(this.longbreakTotal / 60)
+              this.secondes = Math.floor(this.longbreakTotal % 60)
+              this.longbreakTotal--
+              this.progress = this.longbreakTotal * 100 / (this.longbreakValue * 60)
+          }
             else {
               clearInterval(this.longbreakInterval)
               this.pause = true
+              this.minutes = this.longbreakValue
+              this.secondes = 0
+              this.longbreakTotal = this.longbreakValue * 60
+              this.progress = 100
             }
           }, 1000)
         }

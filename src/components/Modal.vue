@@ -302,4 +302,33 @@ export default {
   .time, .font {
     border-bottom: 1px solid lightgray;
   }
+  @media screen and (max-width: 500px) { 
+    .modal {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+
+      .head {
+        padding: 40px 15px 25px 15px;
+      }
+      .center {
+        padding: 0 15px;
+
+        .time {
+          padding: 40px 0;
+
+          .inputContainer .input input {
+            width: 90px;
+            height: 35px;
+          }
+          .inputContainer .input .selecteur {
+            left: 65px;
+          }
+        }
+        .fontChoice, .colorChoice {
+          padding: 30px 0;
+        }
+      }
+    }
+  }
 </style>

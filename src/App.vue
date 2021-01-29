@@ -8,7 +8,7 @@
       <span class="navbar_item" :class="{ navbar_item__selected : longBreak, saumon : saumon, bleu : bleu, violet : violet  }" @click="navbarChoice(3)">long break</span>
     </div>
     <div class="compteur" @click="timer()">
-      <vue-ellipse-progress :progress="pause ? 100: progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="350">
+      <vue-ellipse-progress :progress="pause ? 100: progress" :color="choixCouleur()" emptyColor="transparent" :thickness="10" :size="mobileView ? 250 : 350">
         <div class="compteur_informations">
           <div class="compteur_temps">
             <p v-show="pomodoro">{{ pomodoroValue == pomodoroTotal / 60 ? pomodoroValue : minutes }}:{{ pomodoroValue == pomodoroTotal / 60 ?  0 :secondes }}</p>
@@ -58,10 +58,14 @@ export default {
       shortbreakInterval: null,
       longbreakInterval: null,
       minutes: 0,
-      secondes: 0
+      secondes: 0,
+      mobileView: false,
     }
   },
   methods: {
+    handleView() {
+      this.mobileView = window.innerWidth <= 500;
+    },
     navbarChoice(item) {
       this.pomodoro = false
       this.shortBreak = false
@@ -161,6 +165,10 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.handleView();
+      window.addEventListener('resize', this.handleView);
   }
 }
 </script>
@@ -241,7 +249,10 @@ export default {
     &:active {
       transform: scale(1.03);
     }
-
+    .compteur_informations {
+      top: -10px;
+      position: relative;
+    }
     .compteur_temps {
       font-size: 90px;
       font-weight: 900;
@@ -258,9 +269,38 @@ export default {
     position: relative;
     width: 30px;
     top: 20px;
-    bottom: 50px;
     left: calc(50% - 15px);
     cursor: pointer;
     padding-bottom: 50px;
+  }
+
+  @media screen and (max-width: 500px) {
+    .navbar {
+      width: 300px;
+      font-size: 9px;
+
+        .navbar_item {
+          padding: 14px 22px;
+        }
+    }
+    .compteur {
+      width: 300px;
+      height: 300px;
+      border: 15px solid #282b4f;
+
+      .compteur_temps {
+        font-size: 70px;
+        font-weight: 900;
+      }
+      .compteur_etat {
+        font-size: 14px;
+      }
+    }
+    circle.ep-circle--progress.animation__default {
+    stroke-width: 8px;
+    }
+    .settings {
+      width: 25px;
+    }
   }
 </style>

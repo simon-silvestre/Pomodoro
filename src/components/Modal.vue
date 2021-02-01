@@ -147,7 +147,7 @@ export default {
     justify-content: center;
   }
   .modal {
-    max-width: 540px;
+    width: 540px;
     height: 460px;
     background-color: #fff;
     border-radius: 25px;
@@ -186,6 +186,8 @@ export default {
         }
         .input {
           position: relative;
+          display: flex;
+          flex-direction: column;
 
           input {
             width: 130px;

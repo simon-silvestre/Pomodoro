@@ -292,7 +292,7 @@ export default {
       border: 15px solid #282b4f;
 
       .compteur_temps {
-        font-size: 70px;
+        font-size: 52px;
         font-weight: 900;
       }
       .compteur_etat {

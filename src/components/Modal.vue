@@ -72,9 +72,10 @@ export default {
       this.$parent.pomodoroValue = 0
       this.$parent.shortbreakValue = 0
       this.$parent.longbreakValue = 0
+      this.$parent.stop()
     },
     confirmModal() {
-      this.$parent.modal = false;
+      this.$parent.modal = false
     },
     pomodoro(valeur) {
       if(valeur == -1 && this.$parent.pomodoroValue == 0 ){

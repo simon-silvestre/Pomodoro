@@ -12,8 +12,8 @@
         <div class="compteur_informations">
           <div class="compteur_temps">
             <p v-show="pomodoro">{{ pomodoroValue == pomodoroTotal / 60 ? pomodoroValue >= 10 ? pomodoroValue : '0' + pomodoroValue : minutes >= 10 ? minutes : '0' + minutes }}:{{ pomodoroValue == pomodoroTotal / 60 ?  '00' : secondes >= 10 ? secondes : '0' + secondes }}</p>
-            <p v-show="shortBreak">{{ shortbreakValue == shortbreakTotal / 60 ? shortbreakValue : minutes }}:{{ shortbreakValue == shortbreakTotal / 60 ? 0 :secondes }}</p>
-            <p v-show="longBreak">{{ longbreakValue == longbreakTotal / 60 ? longbreakValue : minutes }}:{{ longbreakValue == longbreakTotal / 60 ? 0 :secondes }}</p>
+            <p v-show="shortBreak">{{ shortbreakValue == shortbreakTotal / 60 ? shortbreakValue >= 10 ? shortbreakValue : '0' + shortbreakValue : minutes >= 10 ? minutes : '0' + minutes }}:{{ shortbreakValue == shortbreakTotal / 60 ?  '00' : secondes >= 10 ? secondes : '0' + secondes }}</p>
+            <p v-show="longBreak">{{ longbreakValue == longbreakTotal / 60 ? longbreakValue >= 10 ? longbreakValue : '0' + longbreakValue : minutes >= 10 ? minutes : '0' + minutes }}:{{ longbreakValue == longbreakTotal / 60 ?  '00' : secondes >= 10 ? secondes : '0' + secondes }}</p>
           </div>
           <div class="compteur_etat">
             <p v-if="pause">pause</p>
